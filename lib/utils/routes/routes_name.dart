@@ -7,5 +7,7 @@ class RoutesName{
 
   static const String signUp = 'sign_up_view';
 
+  static const String splash = 'splash_view';
+
 
 }
