@@ -7,68 +7,60 @@ import 'package:flutter_mvvm_example/utils/utils.dart';
 import 'package:flutter_mvvm_example/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
-class AuthViewModel with ChangeNotifier{
+class AuthViewModel with ChangeNotifier {
   final _myRepo = AuthRepository();
 
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
 
-  setLoading(bool loadingStatus){
+  setLoading(bool loadingStatus) {
     _isLoading = loadingStatus;
     notifyListeners();
-
   }
 
-
-  Future<dynamic> loginApi (dynamic data,BuildContext context) async{
-
+  Future<dynamic> loginApi(dynamic data, BuildContext context) async {
     setLoading(true);
 
-    _myRepo.loginApi(data).then((value){
+    _myRepo.loginApi(data).then((value) {
       setLoading(false);
 
-      final userPreference = Provider.of<UserViewModel>(context , listen: false);
+      final userPreference = Provider.of<UserViewModel>(context, listen: false);
 
-      userPreference.saveUserData(
-          UserModel(
-              token: value['token'].toString()
-          )
-      );
+      userPreference.saveUserData(UserModel(token: value['token'].toString()));
 
-      Navigator.pushNamedAndRemoveUntil(context, RoutesName.home,(route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          context, RoutesName.home, (route) => false);
       Utils.flushBarErrorMessage("Login Successfully", context);
-      if(kDebugMode){
+      if (kDebugMode) {
         print(data.toString());
       }
-
-    }).onError((error, stackTrace){
+    }).onError((error, stackTrace) {
       setLoading(false);
       Utils.flushBarErrorMessage(error.toString(), context);
-      if(kDebugMode){
+      if (kDebugMode) {
         print(error.toString());
       }
     });
   }
 
-  Future<dynamic> signUpApi (dynamic data,BuildContext context) async{
-
+  Future<dynamic> signUpApi(dynamic data, BuildContext context) async {
     setLoading(true);
 
-    _myRepo.signUpApi(data).then((value){
+    _myRepo.signUpApi(data).then((value) {
       setLoading(false);
       Navigator.pop(context);
-      Utils.flushBarErrorMessage("Signed up Successfully.Please Login", context);
-      if(kDebugMode){
+      Utils.flushBarErrorMessage(
+          "Signed up Successfully.Please Login", context);
+      if (kDebugMode) {
         print(data.toString());
       }
-    }).onError((error, stackTrace){
+    }).onError((error, stackTrace) {
       setLoading(false);
       Utils.flushBarErrorMessage("Sign up failed", context);
-      if(kDebugMode){
+      if (kDebugMode) {
         print(error.toString());
       }
     });
   }
-
 }

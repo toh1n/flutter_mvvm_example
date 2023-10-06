@@ -19,9 +19,9 @@ class _LoginViewState extends State<LoginView> {
 
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
-  
+
   ValueNotifier<bool> obscureText = ValueNotifier<bool>(true);
-  
+
   @override
   void dispose() {
     super.dispose();
@@ -33,7 +33,6 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-
     final authModel = Provider.of<AuthViewModel>(context);
     final height = MediaQuery.of(context).size.height;
 
@@ -41,6 +40,7 @@ class _LoginViewState extends State<LoginView> {
       appBar: AppBar(
         title: const Text("Login"),
         centerTitle: true,
+        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -55,65 +55,71 @@ class _LoginViewState extends State<LoginView> {
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.alternate_email),
                   hintText: "Email",
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25)),
                 ),
                 onFieldSubmitted: (value) {
                   Utils.fieldFocusChange(
                       context, emailFocusNode, passwordFocusNode);
                 },
               ),
-              SizedBox(height: height * .01,),
+              SizedBox(
+                height: height * .01,
+              ),
               ValueListenableBuilder(
                 valueListenable: obscureText,
                 builder: (context, value, child) {
-                return TextFormField(
-                  controller: passwordTEController,
-                  focusNode: passwordFocusNode,
-                  obscureText: obscureText.value,
-                  decoration: InputDecoration(
-
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
-
-                    prefixIcon: const Icon(Icons.lock_open_outlined),
-                    hintText: 'Password',
-
-                    suffixIcon:  InkWell(
-                      onTap: (){
-                        obscureText.value = !obscureText.value;
-                        setState(() {
-
-                        });
-                      },
-                      child: obscureText.value ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
+                  return TextFormField(
+                    controller: passwordTEController,
+                    focusNode: passwordFocusNode,
+                    obscureText: obscureText.value,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25)),
+                      prefixIcon: const Icon(Icons.lock_open_outlined),
+                      hintText: 'Password',
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          obscureText.value = !obscureText.value;
+                        },
+                        child: obscureText.value
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off),
+                      ),
                     ),
-                  ),
-                );
-              },),
-              SizedBox(height: height * 0.05,),
+                  );
+                },
+              ),
+              SizedBox(
+                height: height * 0.05,
+              ),
               RoundButton(
                 title: "Login",
                 isLoading: authModel.isLoading,
                 onTap: () {
-                  if(emailTEController.text.isEmpty){
+                  if (emailTEController.text.isEmpty) {
                     Utils.flushBarErrorMessage("Please Enter Email", context);
-                  } else if(passwordTEController.text.isEmpty){
-                    Utils.flushBarErrorMessage("Please Enter Password", context);
+                  } else if (passwordTEController.text.isEmpty) {
+                    Utils.flushBarErrorMessage(
+                        "Please Enter Password", context);
                   } else {
-                    Map<String , dynamic> loginData = {
-                      "email" : emailTEController.text.trim(),
-                      "password" : passwordTEController.text.trim(),
+                    Map<String, dynamic> loginData = {
+                      "email": emailTEController.text.trim(),
+                      "password": passwordTEController.text.trim(),
                     };
 
                     authModel.loginApi(loginData, context);
-                    if(kDebugMode){
+                    if (kDebugMode) {
                       print("Api Hit");
                     }
                   }
                 },
               ),
-              SizedBox(height: height * .02,),
+              SizedBox(
+                height: height * .02,
+              ),
               InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.pushNamed(context, RoutesName.signUp);
                   },
                   child: const Text("Don't have an account? Sign Up"))

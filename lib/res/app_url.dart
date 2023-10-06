@@ -5,4 +5,6 @@ class AppUrl{
   static const loginUrl = '$_baseUrl/login';
   static const registerUrl = '$_baseUrl/register';
 
+  static const colorModelUrl = 'https://reqres.in/api/unknown';
+
 }

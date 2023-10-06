@@ -9,7 +9,6 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
-
   SplashService auth = SplashService();
 
   @override
@@ -18,7 +17,6 @@ class _SplashViewState extends State<SplashView> {
 
     auth.checkAuthentication(context);
   }
-
 
   @override
   Widget build(BuildContext context) {

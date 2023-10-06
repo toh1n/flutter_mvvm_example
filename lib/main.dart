@@ -6,6 +6,7 @@ import 'package:flutter_mvvm_example/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       ],
       builder: (context, child) {
         return const MaterialApp(
+          debugShowCheckedModeBanner: false,
           initialRoute: RoutesName.splash,
           onGenerateRoute: Routes.generateRoute,
         );
